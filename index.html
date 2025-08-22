@@ -4,17 +4,58 @@
   <meta charset="UTF-8">
   <title>一言サイト</title>
   <style>
-    body {
-      display: flex;
-      justify-content: center; /* 横中央 */
-      align-items: center;     /* 縦中央 */
-      height: 100vh;           /* 画面全体 */
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-size: 2em;
+      color: white;
+      position: relative;
+      background-color: black;
+    }
+
+    /* 背景動画を全画面表示 */
+    #bgVideo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* 真ん中のテキスト */
+    #text {
+      z-index: 1;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  君のIPは俺に送信されました
+  <!-- 背景動画（音あり） -->
+  <video id="bgVideo" autoplay loop>
+    <source src="bg.mp4" type="video/mp4">
+    お使いのブラウザは動画に対応していません。
+  </video>
+
+  <!-- 中央の一言 -->
+  <div id="text">君のIPは俺に送信されました。DDOS撃つね</div>
+
+  <script>
+    const video = document.getElementById('bgVideo');
+
+    // ページロード時に自動再生を試みる
+    window.addEventListener('load', () => {
+      video.play().catch(() => {
+        console.log("自動再生できませんでした。ユーザー操作で再生してください。");
+      });
+    });
+  </script>
 </body>
 </html>
